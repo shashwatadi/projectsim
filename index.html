@@ -23,7 +23,7 @@
   <title></title>
 </head>
 
-<body style="background: #eee;">
+<body style="background: #eee;" onload="loader();">
   <div class="tabular-eg">
     <ul class="nav nav-tabs"
         id="myTab">
@@ -99,8 +99,8 @@
                    max="100"
                    min="5"
                    value="50"
-                   step="1"
-                   onchange="showValue();"><span id="theValue"
+                   step="1">
+                   <!--onchange="showValue();"--><span id="theValue"
                    style="text-align: center"></span><br>
             </div>
 
@@ -113,7 +113,7 @@
                    min="10"
                    value="50"
                    step="1"
-                   onchange="diffVal();"><span id="diff"
+                   ><span id="diff"
                    style="text-align: center"></span><br>
             </div>
 
@@ -136,13 +136,13 @@
                    name="cond"
                    value="diric"
                    id="rdic"
-                   onclick="changeCondition(1);"
+                   
                    checked="checked"> Dirichlet condition<br>
               <input type="radio"
                    name="cond"
                    value="neuma"
-                   id="rneu"
-                   onclick="changeCondition(2);"> Neumann condition<br>
+                   id="rneu">
+                   <!--onclick="changeCondition(2);"--> Neumann condition<br>
             </div><!--div class="bound">
                 Maximum Temperature: <input type="text"  class="form-control" placeholder=".col-lg-3"  id="maxT">
                 Minimum Temperature: <input type="text" pattern="[0-9]*" value="500" class="form-control" placeholder=".col-lg-2" id="minT">
@@ -177,7 +177,7 @@
       </div>
 
       <div id="divi">
-        <p>jshjx</p>
+        <canvas id="graph" style="width=100%; height=100%; borde=1px solid black;">error Loading Graph</canvas>
       </div>
 	  </div>
       <div id="dropdown2"

@@ -1,60 +1,35 @@
-var minT = document.getElementById("minT").value;
-var maxT = document.getElementById("maxT").value;
-minT = parseInt(minT);
-maxT = parseInt(maxT);
-var firstrun = true;
-console.log("Why 1?");
-var grad = 255/(maxT-minT);//Exception for 0
-var fixedT = Math.round((minT+maxT)/2);
-//alert("minT: "+minT+"\nmaxT: "+maxT+"\ngrad: "+grad);
-if(document.getElementById("rdic").checked)
-	choice = 1;
-else
-	choice = 2;
-var num = new Array();
-var value = document.getElementById("sliderValue").value;
-document.getElementById("theValue").innerHTML = value;
-var t = document.getElementById("diffValue").value;
-document.getElementById("diff").innerHTML = t;
+var t =1;
 var timer;
+var value = 100;
+var num = new Array();
 
 var initialize = function(){
-num[0]=fixedT;
 var i;
-for(i=1; i<value-1; i++){
-	num[i] = Math.round(Math.random()* (maxT-minT))+ minT;
-	//console.log(num[i]+";");
+for(i=0; i<100; i++){
+if(i<50)
+	num[i]=0;
+else
+	num[i]=1;
 }
-num[i]=fixedT;
 updateRes();
 };
+
 var func = function(){
-maxT = Math.round(document.getElementById("maxT").value) ;
-minT = Math.round(document.getElementById("minT").value);
-grad = (maxT-minT)/255;
 updateRes();
 timer = setInterval(newFunc, 30);
 };
 var newFunc = function(){
 var size = value;
-var radio = choice;
-t = document.getElementById("diffValue").value;
+
 var TIMES=10000;
-var i, dx = 0.5, dt=0.000000001;
-//var num= new Array();
+var i, dx = 0.01, dt=0.000000001;
 var numUpdate = new Array();
-/*for(i=0; i<size; i++){
-	num[i] = Math.random()*100+100;
-}*/
+
 for(i=0; i<TIMES; i++){
 	for(j=1; j<size-1; j++)
 		numUpdate[j] = num[j] + t*(dt*(num[j+1]+num[j-1]-2*num[j])/(dx*dx));
-	if(radio == 1)
-		numUpdate[0] = numUpdate[size-1] = fixedT;
-	else{
-		numUpdate[0] = numUpdate[1];
-		numUpdate[size-1] = numUpdate[size-2];
-	}
+	numUpdate[0] = numUpdate[1];
+	numUpdate[size-1] = numUpdate[size-2];
 	num = numUpdate;
 }
 updateRes();
@@ -66,17 +41,18 @@ var ctx=c.getContext("2d");
 var color, no;
 console.log("Update");
 var width=c.width,height=c.height,i;
-for(i=0;i<value;i++)
-{ no=Math.floor((num[i]-minT)*grad);
-	
-  color="#"+(no-1).toString(16)+(no-1).toString(16)+(no-1).toString(16);
-  ctx.fillStyle=color;
-  //alert((no-1+ "; num: "+ num[i]+"; color: "+color));
-  ctx.fillRect(i*width/value,0,width/value,height);
-}
-//return num;
-};
+for(i=0;i<value;i++){
+	no=Math.floor(num[i]*238);
+	//alert("COL num,no: "+num[i]+", "+no);
 
+	
+	color="#"+(no+16).toString(16)+(no+16).toString(16)+(no+16).toString(16);
+	ctx.fillStyle=color;
+    ctx.fillRect(i*width/value,0,width/value,height);
+}
+loader();
+};
+/*
 var showValue = function(){
 var D = document.getElementById("sliderValue").value;
 document.getElementById("theValue").innerHTML = D;
@@ -111,14 +87,14 @@ choice = local;
 console.log("Condition changed to choice "+choice);
 updateRes();
 
-};
+};*/
 //alert("Beginning initialization");
 initialize();
 updateRes();
 
 var stop = function(){ clearInterval(timer);};
 initialize();
-changeCondition(choice);
+//changeCondition(choice);
 var refresh = function(){
 window.location.reload(false); 
 };
@@ -157,4 +133,28 @@ function getOffsetRect(elem) {
 	var right = box.right;
     return { right: Math.round(right), left: Math.round(left) }
 }
-    
+function loader(){
+var graph = document.getElementById("graph");
+var size = value;
+var width = graph.width;
+var height = graph.height;
+var unitScaleX = width/(size+1);
+if(graph.getContext){
+	var content = graph.getContext("2d");
+	drawAxes(content, unitScaleX, height, width);
+	content.beginPath();
+	for(i=0; i<size-1; i++){
+	content.moveTo(unitScaleX*(i+2), (1-num[i])*height);
+	content.lineTo(unitScaleX*(i+3), (1-num[i+1])*height);
+}
+content.closePath();
+}
+}
+ function drawAxes(elem, unit, ht, wd){
+ elem.beginPath();
+	elem.moveTo(unit, 0);
+	elem.lineTo(unit, ht);
+	elem.moveTo(0, ht);
+	elem.lineTo(wd, ht);
+ elem.closePath();
+ }
