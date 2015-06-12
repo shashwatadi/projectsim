@@ -3,7 +3,7 @@
 <html>
 <head>
   <meta name="generator"
-        content="HTML Tidy for Linux/x86 (vers 25 March 2009), see www.w3.org">
+        content="HTML Tidy for Linux/x86 (vers 25 Marcsh 2009), see www.w3.org">
   <link type="text/css"
         rel="stylesheet"
         href="css/stylesheet.css">
@@ -84,6 +84,8 @@
           <legend class="legend">Temperature <span id="temp"></span></legend> 
           <!-- h2 style="text-align:left">TEMPERATURE</h2 -->
            <canvas id="canvas" onmouseover="runCoord(event)" onmousemove="runCoord(event);" onmouseout="exitCoords(event);">Error Loading</canvas>
+		   <p id="timer"></p>
+		   <canvas id="graph" onmouseover="runCoord(event)" onmousemove="runCoord(event);" onmouseout="exitCoords(event);">Error Loading</canvas>
         </fieldset>
 
         <form>
@@ -177,12 +179,12 @@
       </div>
 
       <div id="divi">
-        <canvas id="graph" style="width=100%; height=100%; borde=1px solid black;">error Loading Graph</canvas>
+        <canvas id="graph" style = "border:1px solid black; width=100px; height=100px">error Loading Graph</canvas>
       </div>
 	  </div>
       <div id="dropdown2"
            class="tab-pane fade">
-        <h3>Dropdown 2</h3>
+        <h3>Dropdown 2</h3>
 
         <p>Donec vel placerat quam, ut euismod risus. Sed a mi suscipit, elementum sem a,
         hendrerit velit. Donec at erat magna. Sed dignissim orci nec eleifend egestas.

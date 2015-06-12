@@ -11,11 +11,13 @@ if(i<50)
 else
 	num[i]=1;
 }
-updateRes();
+//updateRes();
+loader();
 };
 
 var func = function(){
-updateRes();
+//updateRes();
+loader();
 timer = setInterval(newFunc, 30);
 };
 var newFunc = function(){
@@ -31,8 +33,10 @@ for(i=0; i<TIMES; i++){
 	numUpdate[0] = numUpdate[1];
 	numUpdate[size-1] = numUpdate[size-2];
 	num = numUpdate;
-}
-updateRes();
+	document.getElementById("timer").innerHTML = "Time" + dt*TIMES;
+	}
+//updateRes();
+loader();
 };
 
 var updateRes= function(){
@@ -50,7 +54,6 @@ for(i=0;i<value;i++){
 	ctx.fillStyle=color;
     ctx.fillRect(i*width/value,0,width/value,height);
 }
-loader();
 };
 /*
 var showValue = function(){
@@ -90,7 +93,8 @@ updateRes();
 };*/
 //alert("Beginning initialization");
 initialize();
-updateRes();
+//updateRes();
+loader();
 
 var stop = function(){ clearInterval(timer);};
 initialize();
@@ -134,6 +138,7 @@ function getOffsetRect(elem) {
     return { right: Math.round(right), left: Math.round(left) }
 }
 function loader(){
+	updateRes();
 var graph = document.getElementById("graph");
 var size = value;
 var width = graph.width;
@@ -141,20 +146,26 @@ var height = graph.height;
 var unitScaleX = width/(size+1);
 if(graph.getContext){
 	var content = graph.getContext("2d");
-	drawAxes(content, unitScaleX, height, width);
+	content.clearRect(0,0,width,height);
+	drawAxes(content, height, width);
 	content.beginPath();
 	for(i=0; i<size-1; i++){
-	content.moveTo(unitScaleX*(i+2), (1-num[i])*height);
-	content.lineTo(unitScaleX*(i+3), (1-num[i+1])*height);
+	content.moveTo(unitScaleX*(i+1), (1-num[i])*height);
+	content.lineTo(unitScaleX*(i+2), (1-num[i+1])*height);
+	content.strokeStyle="red";
+	content.stroke();
 }
 content.closePath();
 }
 }
- function drawAxes(elem, unit, ht, wd){
+ function drawAxes(elem, ht, wd){
  elem.beginPath();
-	elem.moveTo(unit, 0);
-	elem.lineTo(unit, ht);
-	elem.moveTo(0, ht);
+	elem.moveTo(0, 0);
+	elem.lineTo(0, ht);
 	elem.lineTo(wd, ht);
+	elem.strokeStyle = "green";
+
+	elem.stroke();
  elem.closePath();
+ 
  }
